@@ -1,0 +1,503 @@
+{
+  "2": {
+    "inputs": {
+      "clip_name": "qwen_2.5_vl_7b.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "CLIP加载器"
+    }
+  },
+  "4": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "VAE加载器"
+    }
+  },
+  "6": {
+    "inputs": {
+      "unet_name": "FireRed-Image-Edit-1.1_fp8mixed_comfy.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNET加载器"
+    }
+  },
+  "7": {
+    "inputs": {
+      "lora_name": "Qwen-Image-Lightning-8steps-V2.0 bf16.safetensors",
+      "strength_model": 1,
+      "model": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器(仅模型)"
+    }
+  },
+  "8": {
+    "inputs": {
+      "conditioning": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "条件零化"
+    }
+  },
+  "9": {
+    "inputs": {
+      "seed": 853071466024226,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "beta",
+      "denoise": 1,
+      "model": [
+        "7",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "8",
+        0
+      ],
+      "latent_image": [
+        "20",
+        1
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "14": {
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "20": {
+    "inputs": {
+      "prompt": [
+        "43",
+        0
+      ],
+      "target_size": 1536,
+      "target_vl_size": 384,
+      "upscale_method": "lanczos",
+      "crop_method": "pad",
+      "instruction": "Describe the key features of the input image (color, shape, size, texture, objects, background), then explain how the user's text instruction should alter or modify the image. Generate a new image that meets the user's requirements while maintaining consistency with the original input where appropriate.",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ],
+      "vl_resize_image1": [
+        "26",
+        0
+      ],
+      "vl_resize_image2": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlusAdvance_lrzjason",
+    "_meta": {
+      "title": "TextEncodeQwenImageEditPlusAdvance lrzjason"
+    }
+  },
+  "26": {
+    "inputs": {
+      "aspect_ratio": "original",
+      "proportional_width": 1,
+      "proportional_height": 1,
+      "fit": "letterbox",
+      "method": "lanczos",
+      "round_to_multiple": "8",
+      "scale_to_side": "total_pixel(kilo pixel)",
+      "scale_to_length": 2048,
+      "background_color": "#000000",
+      "image": [
+        "72",
+        0
+      ]
+    },
+    "class_type": "LayerUtility: ImageScaleByAspectRatio V2",
+    "_meta": {
+      "title": "按宽高比缩放_V2"
+    }
+  },
+  "33": {
+    "inputs": {
+      "image": "None"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "加载图像"
+    }
+  },
+  "43": {
+    "inputs": {
+      "text": ""
+    },
+    "class_type": "Text",
+    "_meta": {
+      "title": "文本"
+    }
+  },
+  "55": {
+    "inputs": {
+      "frame_rate": 1,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "no_preview": false,
+      "images": [
+        "64",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "合并为视频"
+    }
+  },
+  "56": {
+    "inputs": {
+      "aspect_ratio": "original",
+      "proportional_width": 1,
+      "proportional_height": 1,
+      "fit": "letterbox",
+      "method": "lanczos",
+      "round_to_multiple": "8",
+      "scale_to_side": "None",
+      "scale_to_length": 2048,
+      "background_color": "#000000",
+      "image": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "LayerUtility: ImageScaleByAspectRatio V2",
+    "_meta": {
+      "title": "按宽高比缩放_V2"
+    }
+  },
+  "64": {
+    "inputs": {
+      "📸 图像1": [
+        "33",
+        0
+      ],
+      "📸 图像4": [
+        "14",
+        0
+      ],
+      "📸 图像9": [
+        "72",
+        0
+      ]
+    },
+    "class_type": "DapaoMakeImageBatchNode",
+    "_meta": {
+      "title": "制作图像批次 📦@炮老师的小课堂"
+    }
+  },
+  "66": {
+    "inputs": {
+      "aspect_ratio": "original",
+      "proportional_width": 1,
+      "proportional_height": 1,
+      "fit": "letterbox",
+      "method": "lanczos",
+      "round_to_multiple": "8",
+      "scale_to_side": "total_pixel(kilo pixel)",
+      "scale_to_length": 2048,
+      "background_color": "#000000"
+    },
+    "class_type": "LayerUtility: ImageScaleByAspectRatio V2",
+    "_meta": {
+      "title": "按宽高比缩放_V2"
+    }
+  },
+  "68": {
+    "inputs": {
+      "text": "masterpiece,best quality,amazing quality,depth of field,dynamic lighting,light particle,best quality,very aesthetic,highres,absurdres,Expressiveh(artist duohe fangdongye:0.9),artist,artist,noyu23386566,ningen mame,(artist:sho:0.8264462809917354),(sho lwlw:0.9090909090909091),(artist:kedama_milk:0.5),(bee_(deadflow):0.7),artist,(artist:fkey:0.8),(artist:wlop:1),year 2023,1girl,solo,long hair,nun,frilled dress,earrings,bangs,black dress,detached sleeves,long sleeves,grey eyes,gray hair,hair flower,bare shoulders,cross necklace,white headband,see-through clothes,see-through cleavage,black pantyhose,huge breasts",
+      "clip": [
+        "78",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "69": {
+    "inputs": {
+      "text": "bad quality,worst quality,worst detail,sketch,censor,pov_hands",
+      "clip": [
+        "78",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码器"
+    }
+  },
+  "70": {
+    "inputs": {
+      "width": 1024,
+      "height": 1360,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "空Latent"
+    }
+  },
+  "72": {
+    "inputs": {
+      "samples": [
+        "93",
+        3
+      ],
+      "vae": [
+        "93",
+        4
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "74": {
+    "inputs": {
+      "lora_name": "wai-2Rectified-V140.safetensors",
+      "strength_model": 1.0000000000000002,
+      "strength_clip": 1.0000000000000002,
+      "model": [
+        "89",
+        0
+      ],
+      "clip": [
+        "89",
+        5
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "75": {
+    "inputs": {
+      "lora_name": "ExpressiveH (Expressiveh).safetensors",
+      "strength_model": 1,
+      "strength_clip": 1.0000000000000002,
+      "model": [
+        "74",
+        0
+      ],
+      "clip": [
+        "74",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "76": {
+    "inputs": {
+      "lora_name": "add_contrast_XL.safetensors",
+      "strength_model": -2.0000000000000004,
+      "strength_clip": -2.0000000000000004,
+      "model": [
+        "75",
+        0
+      ],
+      "clip": [
+        "75",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "77": {
+    "inputs": {
+      "lora_name": "add_brightness_XL.safetensors",
+      "strength_model": 0.5000000000000001,
+      "strength_clip": 0.5000000000000001,
+      "model": [
+        "76",
+        0
+      ],
+      "clip": [
+        "76",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "78": {
+    "inputs": {
+      "lora_name": "add_saturation_XL.safetensors",
+      "strength_model": -1.0000000000000002,
+      "strength_clip": -1.0000000000000002,
+      "model": [
+        "77",
+        0
+      ],
+      "clip": [
+        "77",
+        1
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA加载器"
+    }
+  },
+  "87": {
+    "inputs": {
+      "images": [
+        "72",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "89": {
+    "inputs": {
+      "ckpt_name": "自用大模型SDXL_v140.safetensors",
+      "vae_name": "Baked VAE",
+      "clip_skip": -2,
+      "lora_name": "None",
+      "lora_model_strength": 1,
+      "lora_clip_strength": 1,
+      "positive": "masterpiece,best quality,amazing quality,depth of field,dynamic lighting,light particle,best quality,very aesthetic,highres,absurdres,Expressiveh(artist duohe fangdongye:0.9),artist,artist,noyu23386566,ningen mame,(artist:sho:0.8264462809917354),(sho lwlw:0.9090909090909091),(artist:kedama_milk:0.5),(bee_(deadflow):0.7),artist,(artist:fkey:0.8),(artist:wlop:1),year 2023,1girl,solo,long hair,nun,frilled dress,earrings,bangs,black dress,detached sleeves,long sleeves,grey eyes,gray hair,hair flower,bare shoulders,cross necklace,white headband,see-through clothes,see-through cleavage,black pantyhose,huge breasts",
+      "negative": "bad quality,worst quality,worst detail,sketch,censor,pov_hands\n",
+      "token_normalization": "none",
+      "weight_interpretation": "A1111",
+      "empty_latent_width": 512,
+      "empty_latent_height": 512,
+      "batch_size": 1
+    },
+    "class_type": "Efficient Loader",
+    "_meta": {
+      "title": "效率加载器"
+    }
+  },
+  "93": {
+    "inputs": {
+      "seed": 17035166124944,
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "euler",
+      "scheduler": "karras",
+      "denoise": 1,
+      "preview_method": "auto",
+      "vae_decode": "true",
+      "model": [
+        "78",
+        0
+      ],
+      "positive": [
+        "68",
+        0
+      ],
+      "negative": [
+        "99",
+        0
+      ],
+      "latent_image": [
+        "70",
+        0
+      ],
+      "optional_vae": [
+        "89",
+        4
+      ],
+      "script": [
+        "98",
+        0
+      ]
+    },
+    "class_type": "KSampler (Efficient)",
+    "_meta": {
+      "title": "K采样器(效率)"
+    }
+  },
+  "98": {
+    "inputs": {
+      "rng_source": "gpu",
+      "cfg_denoiser": false,
+      "add_seed_noise": false,
+      "seed": 0,
+      "weight": 0.015
+    },
+    "class_type": "Noise Control Script",
+    "_meta": {
+      "title": "控制噪波"
+    }
+  },
+  "99": {
+    "inputs": {
+      "conditioning": [
+        "69",
+        0
+      ]
+    },
+    "class_type": "ConditioningZeroOut",
+    "_meta": {
+      "title": "条件零化"
+    }
+  }
+}
